@@ -16,8 +16,8 @@ model = AutoModelForSequenceClassification.from_pretrained("nbroad/ESG-BERT")
 classifier = pipeline('text-classification', model=model, tokenizer=tokenizer)
 
 endpoint = "https://esg-finetune.openai.azure.com/"
-model_name = "gpt-4o-mini"
-deployment = "gpt-4o-mini"
+model_name = "gpt-35-turbo"
+deployment = "fyp-api"
 
 subscription_key = "4XlXF0Y7Xxp2mM6fnI6LmdUwd6GsZLMW5DsDKHb34stBas7cSflkJQQJ99BDACHrzpqXJ3w3AAABACOGveCN"
 api_version = "2024-12-01-preview"
@@ -81,7 +81,7 @@ def extract_pdf_text():
             },
             {
                 "role": "user",
-                "content": f"Given the data in {output}, predict the Total risk, E/S/G Risk for this company. Explain the factors/reasons for the predicted E/S/G scores. And for each E/S/G factor provide 1-2 suggestions to improve. Return the result in json format: total_risk: predicted total risk score from 1-10. 1 is the lowest risk and 10 is the highest risk., e_risk: predicted environmental risk score, e_explanation: reasons for this predicted environmental risk score, e_suggestion: suggestions on how to improve performance in environmental aspect, s_risk: predicted social risk score, s_explanation: reasons for this predicted social risk score, s_suggestion: suggestions on how to improve performance in social aspect, g_risk: predicted governance risk score, g_explanation: reasons for this predicted governance risk score, g_suggestion: suggestions on how to improve performance in governance aspect",
+                "content": f'Given the data in {output}, predict the Total score, E/S/G score for this company. Explain the factors/reasons for the predicted E/S/G scores. And for each E/S/G factor provide 1-2 suggestions to improve. Return the result in json format "total_score": "predicted total risk score from 0-100. 0 is the worse and 100 is the best.", "e_score": "predicted environmental score", "e_explanation": "reasons for this predicted environmental score", "e_suggestion": "suggestions on how to improve performance in environmental aspect", "s_score": "predicted social score", "s_explanation": "reasons for this predicted social score", "s_suggestion": "suggestions on how to improve performance in social aspect", "g_score": "predicted governance score", "g_explanation": "reasons for this predicted governancescore", "g_suggestion": "suggestions on how to improve performance in governance aspect"',
             }
         ],
         max_tokens=4096,
